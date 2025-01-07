@@ -46,7 +46,7 @@ class Activity(models.Model):
 class StudentActivity(models.Model):
     create_time = models.DateTimeField(auto_now_add=True)
     student = models.ForeignKey(Student, on_delete=models.CASCADE)
-    activity = models.ForeignKey(Activity, on_delete=models.CASCADE)
+    activity = models.ForeignKey(Activity, on_delete=models.SET_NULL, null=True)
     operator = models.ForeignKey(User, on_delete=models.CASCADE)
     comment = models.TextField(blank=True, null=True, verbose_name="备注")
     earned_score = models.IntegerField(default=0, verbose_name="获得分数")

@@ -2,7 +2,7 @@ import logging
 from rest_framework import decorators, response, generics, viewsets
 from rest_framework_simplejwt.tokens import RefreshToken
 
-from . import serializers, permissions, models, filters
+from . import serializers, permissions, models, filters, paginations
 
 
 logger = logging.getLogger("file_console")
@@ -39,10 +39,10 @@ class ActivityViewSet(generics.ListCreateAPIView):
 
 class StudentActivityViewSet(generics.ListCreateAPIView):
     permission_classes = [permissions.IsAuthenticated]
-    queryset = models.StudentActivity.objects.all()
+    queryset = models.StudentActivity.objects.all().order_by("-id")
     serializer_class = serializers.StudentActivitySerializer
     filter_backends = [filters.StudentActivityFilterBackend]
-    pagination_class = None
+    pagination_class = paginations.StandardPagination
 
     def create(self, request, *args, **kwargs):
         request.data["operator"] = self.request.user.pk
